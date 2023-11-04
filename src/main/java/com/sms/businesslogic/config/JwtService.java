@@ -1,4 +1,4 @@
-package com.sms.businesslogic.Config;
+package com.sms.businesslogic.config;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

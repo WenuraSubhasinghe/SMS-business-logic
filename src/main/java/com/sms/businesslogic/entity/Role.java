@@ -1,4 +1,4 @@
-package com.sms.businesslogic.Entity;
+package com.sms.businesslogic.entity;
 
 public enum Role {
     USER,
