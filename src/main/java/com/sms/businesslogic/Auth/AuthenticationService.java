@@ -1,6 +1,7 @@
 package com.sms.businesslogic.Auth;
 
 import com.sms.businesslogic.Config.JwtService;
+import com.sms.businesslogic.Entity.Role;
 import com.sms.businesslogic.Entity.User;
 import com.sms.businesslogic.Exception.EmailAlreadyExistException;
 import com.sms.businesslogic.Exception.EmailOrPasswordIncorrectException;
