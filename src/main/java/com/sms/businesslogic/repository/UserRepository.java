@@ -1,6 +1,6 @@
-package com.sms.businesslogic.Repository;
+package com.sms.businesslogic.repository;
 
-import com.sms.businesslogic.Entity.User;
+import com.sms.businesslogic.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

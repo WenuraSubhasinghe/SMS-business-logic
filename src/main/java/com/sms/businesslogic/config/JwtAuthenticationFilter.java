@@ -1,4 +1,4 @@
-package com.sms.businesslogic.Config;
+package com.sms.businesslogic.config;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

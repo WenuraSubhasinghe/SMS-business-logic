@@ -1,4 +1,4 @@
-package com.sms.businesslogic.Auth;
+package com.sms.businesslogic.auth;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
