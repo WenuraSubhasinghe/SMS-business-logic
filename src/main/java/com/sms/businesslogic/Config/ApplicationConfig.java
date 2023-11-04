@@ -1,6 +1,6 @@
 package com.sms.businesslogic.Config;
 
-import com.BookStore.BookBliss.Repository.UserRepository;
+import com.sms.businesslogic.Repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

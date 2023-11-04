@@ -1,6 +1,6 @@
 package com.sms.businesslogic.Repository;
 
-import com.BookStore.BookBliss.Entity.User;
+import com.sms.businesslogic.Entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

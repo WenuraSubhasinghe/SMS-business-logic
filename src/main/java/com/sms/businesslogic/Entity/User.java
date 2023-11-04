@@ -65,9 +65,5 @@ public class User implements UserDetails {
         return true;
     }
 
-    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
-//    @JoinColumn(name = "fk_user_id",referencedColumnName = "userId")
-    @JsonManagedReference
-    private Set<Reserve> reserves;
 
 }
