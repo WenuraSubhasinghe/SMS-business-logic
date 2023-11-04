@@ -3,6 +3,7 @@ package com.sms.businesslogic.Auth;
 import com.sms.businesslogic.Config.JwtService;
 import com.sms.businesslogic.Entity.User;
 import com.sms.businesslogic.Exception.EmailAlreadyExistException;
+import com.sms.businesslogic.Exception.EmailOrPasswordIncorrectException;
 import com.sms.businesslogic.Repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -46,20 +47,6 @@ public class AuthenticationService {
 
     }
 
-    /*public AuthenticationResponse authenticate(AuthenticationRequest request) {
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        request.getEmail(),
-                        request.getPassword()
-                )
-        );
-        var user=repository.findByEmail(request.getEmail())
-                .orElseThrow();
-        var jwtToken = jwtService.generateToken(user);
-        return AuthenticationResponse.builder()
-                .token(jwtToken)
-                .build();
-    }*/
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
         try {
             authenticationManager.authenticate(
