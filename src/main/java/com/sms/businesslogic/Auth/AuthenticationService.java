@@ -1,11 +1,10 @@
 package com.sms.businesslogic.Auth;
 
-import com.BookStore.BookBliss.Config.JwtService;
-import com.BookStore.BookBliss.Entity.Role;
-import com.BookStore.BookBliss.Entity.User;
-import com.BookStore.BookBliss.Exception.EmailAlreadyExistException;
-import com.BookStore.BookBliss.Exception.EmailOrPasswordIncorrectException;
-import com.BookStore.BookBliss.Repository.UserRepository;
+import com.sms.businesslogic.Config.JwtService;
+import com.sms.businesslogic.Entity.User;
+import com.sms.businesslogic.Exception.EmailAlreadyExistException;
+import com.sms.businesslogic.Exception.EmailOrPasswordIncorrectException;
+import com.sms.businesslogic.Repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -48,20 +47,6 @@ public class AuthenticationService {
 
     }
 
-    /*public AuthenticationResponse authenticate(AuthenticationRequest request) {
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        request.getEmail(),
-                        request.getPassword()
-                )
-        );
-        var user=repository.findByEmail(request.getEmail())
-                .orElseThrow();
-        var jwtToken = jwtService.generateToken(user);
-        return AuthenticationResponse.builder()
-                .token(jwtToken)
-                .build();
-    }*/
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
         try {
             authenticationManager.authenticate(
