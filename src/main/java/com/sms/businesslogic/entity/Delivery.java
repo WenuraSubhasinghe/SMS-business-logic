@@ -19,4 +19,8 @@ public class Delivery {
     private Integer trackingNo;
     private Date deliveryDate;
     private String status;
+
+    @OneToOne
+    @JoinColumn(name = "order_id", referencedColumnName = "orderId")
+    private Order order;
 }

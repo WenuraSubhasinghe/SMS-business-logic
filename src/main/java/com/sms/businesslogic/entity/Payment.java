@@ -18,4 +18,8 @@ public class Payment {
     private Integer paymentId;
     private String paymentType;
     private BigDecimal totalPayment;
+
+    @OneToOne
+    @JoinColumn(name = "order_id", referencedColumnName = "orderId")
+    private Order order;
 }

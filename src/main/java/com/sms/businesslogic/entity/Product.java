@@ -20,4 +20,8 @@ public class Product {
     private Integer quantity;
     private String description;
     private BigDecimal price;
+
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
 }
