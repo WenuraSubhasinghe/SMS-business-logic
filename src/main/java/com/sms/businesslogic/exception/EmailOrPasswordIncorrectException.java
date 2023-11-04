@@ -1,4 +1,4 @@
-package com.sms.businesslogic.Exception;
+package com.sms.businesslogic.exception;
 
 public class EmailOrPasswordIncorrectException extends RuntimeException{
 

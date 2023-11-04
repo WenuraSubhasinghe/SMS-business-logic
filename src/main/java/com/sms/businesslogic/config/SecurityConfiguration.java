@@ -1,4 +1,4 @@
-package com.sms.businesslogic.Config;
+package com.sms.businesslogic.config;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;

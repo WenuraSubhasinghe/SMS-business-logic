@@ -1,11 +1,11 @@
-package com.sms.businesslogic.Auth;
+package com.sms.businesslogic.auth;
 
-import com.sms.businesslogic.Config.JwtService;
-import com.sms.businesslogic.Entity.Role;
-import com.sms.businesslogic.Entity.User;
-import com.sms.businesslogic.Exception.EmailAlreadyExistException;
-import com.sms.businesslogic.Exception.EmailOrPasswordIncorrectException;
-import com.sms.businesslogic.Repository.UserRepository;
+import com.sms.businesslogic.config.JwtService;
+import com.sms.businesslogic.entity.Role;
+import com.sms.businesslogic.entity.User;
+import com.sms.businesslogic.exception.EmailAlreadyExistException;
+import com.sms.businesslogic.exception.EmailOrPasswordIncorrectException;
+import com.sms.businesslogic.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
