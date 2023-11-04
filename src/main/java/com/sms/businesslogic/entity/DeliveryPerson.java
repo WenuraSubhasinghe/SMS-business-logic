@@ -1,15 +1,17 @@
-package com.sms.businesslogic.Entity;
+package com.sms.businesslogic.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.xml.transform.sax.SAXResult;
 
 @Entity
 @NoArgsConstructor
+@AllArgsConstructor
+@Data
+@Table(name = "delivery-person")
 public class DeliveryPerson {
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY) //PK generation automatically, unique ids
