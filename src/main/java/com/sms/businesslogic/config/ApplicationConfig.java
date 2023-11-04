@@ -1,6 +1,6 @@
-package com.sms.businesslogic.Config;
+package com.sms.businesslogic.config;
 
-import com.sms.businesslogic.Repository.UserRepository;
+import com.sms.businesslogic.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

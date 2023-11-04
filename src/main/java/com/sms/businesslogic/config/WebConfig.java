@@ -1,4 +1,4 @@
-package com.sms.businesslogic.Config;
+package com.sms.businesslogic.config;
 
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
