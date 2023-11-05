@@ -22,12 +22,12 @@ public class OrderProduct {
     private Integer ProdOrderId;
 
     @ManyToOne
-    @JoinColumn(name = "orderId")
+    @JoinColumn(name = "fk_orderId")
     @JsonBackReference
     private Order order;
 
     @ManyToOne
-    @JoinColumn(name = "prodId")
+    @JoinColumn(name = "fk_prodId")
     @JsonBackReference
     private Product product;
 
