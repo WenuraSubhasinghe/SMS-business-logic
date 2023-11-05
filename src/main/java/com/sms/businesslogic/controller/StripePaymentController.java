@@ -1,19 +1,27 @@
 package com.sms.businesslogic.controller;
 
+import com.sms.businesslogic.dto.PaymentRequest;
+import com.sms.businesslogic.entity.Payment;
+import com.sms.businesslogic.service.PaymentService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/v1/payment")
+@RequiredArgsConstructor
 public class StripePaymentController {
 
     @Value("${stripe.apikey}")
     String stripeKey;
 
-    @GetMapping
-    public String hello() {
-        return "Hi there.. it is from payment." + stripeKey;
+    private final PaymentService paymentService;
+
+    @PostMapping
+    public Payment createPaymentIntent(@RequestBody PaymentRequest paymentRequest) {
+        return paymentService.createPaymentIntent(paymentRequest);
     }
 }
