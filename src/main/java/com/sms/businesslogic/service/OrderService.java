@@ -1,19 +1,19 @@
 package com.sms.businesslogic.service;
 
 
-import com.sms.businesslogic.dto.OrderDTO;
 import com.sms.businesslogic.dto.OrderPlaceDTO;
 import com.sms.businesslogic.dto.OrderProductDTO;
 import com.sms.businesslogic.entity.Order;
 import com.sms.businesslogic.entity.OrderProduct;
 import com.sms.businesslogic.entity.Product;
 import com.sms.businesslogic.entity.User;
+import com.sms.businesslogic.exception.OrderNotFoundException;
 import com.sms.businesslogic.exception.ProdcutOutOfStockException;
-import com.sms.businesslogic.repository.OrderProductRepository;
 import com.sms.businesslogic.repository.OrderRepository;
 import com.sms.businesslogic.repository.ProductRepository;
 import com.sms.businesslogic.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.aspectj.weaver.ast.Or;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -24,8 +24,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class OrderService {
 
-    private final OrderProductRepository orderProductRepository;
-
     private final OrderRepository orderRepository;
 
     private final ProductRepository productRepository;
@@ -35,16 +33,6 @@ public class OrderService {
     public List<Order> getAllOrders() {
         return orderRepository.findAll();
     }
-
-
-//    private OrderDTO convertToDTO(Order order){
-//        OrderDTO orderDTO = new OrderDTO();
-//        orderDTO.setOrderId(order.getOrderId());
-//        orderDTO.setOrderDate(order.getOrderDate());
-//        orderDTO.setOrderStatus(order.getOrderStatus());
-//        orderDTO.setOrderStatus(order.getOrderStatus());
-//        return orderDTO;
-//    }
 
     public void createOrder(OrderPlaceDTO orderPlaceDTO,String username) {
 
@@ -72,8 +60,6 @@ public class OrderService {
                 throw new IllegalArgumentException("Product not Found");
             }
         }
-
-
 
         Order order= new Order();
         order.setOrderDate(orderPlaceDTO.getOrderDate());
@@ -108,9 +94,11 @@ public class OrderService {
     }
 
 
+    public String deleteOrder(Integer orderID) {
+        Order order = orderRepository.findById(orderID)
+                        .orElseThrow(() ->new OrderNotFoundException("Order with id "+orderID+" is not available"));
 
-
-
-
-
+       orderRepository.deleteById(orderID);
+       return "Order with id "+orderID+" deleted sucessfully";
+    }
 }

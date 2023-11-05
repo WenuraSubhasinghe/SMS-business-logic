@@ -46,6 +46,18 @@ public class CustomExceptionHandler {
         return new ResponseEntity<>(customException,httpStatus);
     }
 
+    @ExceptionHandler(value = {OrderNotFoundException.class})
+    public ResponseEntity<Object> handleOrderNotFoundException(
+            OrderNotFoundException exception
+    ){
+        HttpStatus httpStatus =HttpStatus.CONFLICT;
+        CustomException customException = new CustomException(
+                exception.getMessage(),
+                httpStatus,
+                ZonedDateTime.now());
+        return new ResponseEntity<>(customException,httpStatus);
+    }
+
 
 
 

@@ -1,7 +1,6 @@
 package com.sms.businesslogic.controller;
 
 
-import com.sms.businesslogic.dto.OrderDTO;
 import com.sms.businesslogic.dto.OrderPlaceDTO;
 import com.sms.businesslogic.entity.Order;
 import com.sms.businesslogic.service.OrderService;
@@ -36,6 +35,11 @@ public class OrderController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Error creating the order: "+e.getMessage());
         }
+    }
+
+    @DeleteMapping("/deleteOrder/{orderID}")
+    public String deleteOrder(@PathVariable Integer orderID){
+        return orderService.deleteOrder(orderID);
     }
 
 
