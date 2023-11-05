@@ -42,6 +42,19 @@ public class OrderController {
         return orderService.deleteOrder(orderID);
     }
 
+    @PutMapping("updateOrder/{orderID}")
+    public ResponseEntity<?> updateOrder(@RequestBody OrderPlaceDTO orderPlaceDTO,@PathVariable Integer orderID){
+        try {
+            orderService.updateOrder(orderPlaceDTO,orderID);
+            return ResponseEntity.ok("Order updated sucessfully");
+        }
+        catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error creating the order: "+e.getMessage());
+        }
+
+    }
+
 
 
 }
