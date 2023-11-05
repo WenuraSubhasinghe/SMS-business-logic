@@ -15,6 +15,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -29,6 +31,7 @@ public class PaymentService {
     public PaymentResponse createPaymentIntent(PaymentRequest paymentRequest) throws StripeException {
         Stripe.apiKey = stripeKey;
 
+        // todo: handle the exception here.
         Order order =  orderRepository.findById(paymentRequest.getOrderId()).orElseThrow();
 
         long paymentAmount = order.getTotalPrice().longValue();
@@ -63,8 +66,24 @@ public class PaymentService {
 
     public PaymentResponse getPaymentDetails(Integer paymentId) {
         Payment payment = paymentRepository.findById(paymentId).orElseThrow();
+        return mapToResponse(payment);
+    }
 
+    public List<PaymentResponse> getAllPaymentsByUserId(Integer userId) {
+        List<Payment> payments = paymentRepository.findByOrderUserUserId(userId);
+        List<PaymentResponse> paymentResponses = new ArrayList<>();
+
+        for (Payment payment: payments) {
+            PaymentResponse paymentResponse = mapToResponse(payment);
+            paymentResponses.add(paymentResponse);
+        }
+
+        return paymentResponses;
+    }
+
+    public PaymentResponse mapToResponse(Payment payment) {
         PaymentResponse paymentResponse = new PaymentResponse();
+
         paymentResponse.setPaymentId(payment.getPaymentId());
         paymentResponse.setUsername(payment.getOrder().getUser().getUsername());
         paymentResponse.setTotalPayment(payment.getTotalPayment());
