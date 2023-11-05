@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 
-
 @Service
 @RequiredArgsConstructor
 public class PaymentService {
@@ -56,6 +55,20 @@ public class PaymentService {
         paymentResponse.setOrderId(payment.getOrder().getOrderId());
         paymentResponse.setUsername(payment.getOrder().getUser().getUsername());
         paymentResponse.setTotalPayment(payment.getTotalPayment());
+        paymentResponse.setPaymentType(payment.getPaymentType());
+        paymentResponse.setLocalDateTime(payment.getLocalDateTime());
+
+        return paymentResponse;
+    }
+
+    public PaymentResponse getPaymentDetails(Integer paymentId) {
+        Payment payment = paymentRepository.findById(paymentId).orElseThrow();
+
+        PaymentResponse paymentResponse = new PaymentResponse();
+        paymentResponse.setPaymentId(payment.getPaymentId());
+        paymentResponse.setUsername(payment.getOrder().getUser().getUsername());
+        paymentResponse.setTotalPayment(payment.getTotalPayment());
+        paymentResponse.setOrderId(payment.getOrder().getOrderId());
         paymentResponse.setPaymentType(payment.getPaymentType());
         paymentResponse.setLocalDateTime(payment.getLocalDateTime());
 
