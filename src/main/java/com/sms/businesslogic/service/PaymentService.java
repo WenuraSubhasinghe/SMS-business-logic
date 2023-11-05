@@ -27,43 +27,38 @@ public class PaymentService {
     @Value("${stripe.apikey}")
     private String stripeKey;
 
-    public PaymentResponse createPaymentIntent(PaymentRequest paymentRequest) {
-        try {
-            Stripe.apiKey = stripeKey;
+    public PaymentResponse createPaymentIntent(PaymentRequest paymentRequest) throws StripeException {
+        Stripe.apiKey = stripeKey;
 
-            Order order =  orderRepository.findById(paymentRequest.getOrderId()).orElseThrow();
+        Order order =  orderRepository.findById(paymentRequest.getOrderId()).orElseThrow();
 
-            long paymentAmount = order.getTotalPrice().longValue();
+        long paymentAmount = order.getTotalPrice().longValue();
 
-            PaymentIntent paymentIntent = PaymentIntent.create(
-                    new PaymentIntentCreateParams.Builder()
-                            .setCurrency(paymentRequest.getCurrency())
-                            .setAmount(paymentAmount*100)
-                            .addPaymentMethodType(paymentRequest.getPaymentMethodType())
-                            .setConfirmationMethod(PaymentIntentCreateParams.ConfirmationMethod.MANUAL)
-                            .build()
-            );
+        PaymentIntent paymentIntent = PaymentIntent.create(
+                new PaymentIntentCreateParams.Builder()
+                        .setCurrency(paymentRequest.getCurrency())
+                        .setAmount(paymentAmount*100)
+                        .addPaymentMethodType(paymentRequest.getPaymentMethodType())
+                        .setConfirmationMethod(PaymentIntentCreateParams.ConfirmationMethod.MANUAL)
+                        .build()
+                );
 
-            Payment payment = new Payment();
-            payment.setOrder(order);
-            payment.setPaymentType(paymentRequest.getPaymentMethodType());
-            payment.setTotalPayment(order.getTotalPrice());
-            payment.setLocalDateTime(LocalDateTime.now());
+        Payment payment = new Payment();
+        payment.setOrder(order);
+        payment.setPaymentType(paymentRequest.getPaymentMethodType());
+        payment.setTotalPayment(order.getTotalPrice());
+        payment.setLocalDateTime(LocalDateTime.now());
 
-            payment = paymentRepository.save(payment);
+        payment = paymentRepository.save(payment);
 
-            PaymentResponse paymentResponse = new PaymentResponse();
-            paymentResponse.setPaymentId(payment.getPaymentId());
-            paymentResponse.setOrderId(payment.getOrder().getOrderId());
-            paymentResponse.setUsername(payment.getOrder().getUser().getUsername());
-            paymentResponse.setTotalPayment(payment.getTotalPayment());
-            paymentResponse.setPaymentType(payment.getPaymentType());
-            paymentResponse.setLocalDateTime(payment.getLocalDateTime());
+        PaymentResponse paymentResponse = new PaymentResponse();
+        paymentResponse.setPaymentId(payment.getPaymentId());
+        paymentResponse.setOrderId(payment.getOrder().getOrderId());
+        paymentResponse.setUsername(payment.getOrder().getUser().getUsername());
+        paymentResponse.setTotalPayment(payment.getTotalPayment());
+        paymentResponse.setPaymentType(payment.getPaymentType());
+        paymentResponse.setLocalDateTime(payment.getLocalDateTime());
 
-            return paymentResponse;
-        } catch (StripeException e) {
-            e.printStackTrace();
-            return null;
-        }
+        return paymentResponse;
     }
 }
