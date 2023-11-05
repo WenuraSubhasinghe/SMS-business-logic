@@ -1,6 +1,5 @@
 package com.sms.businesslogic.service;
 
-import com.sms.businesslogic.dto.PaymentReply;
 import com.sms.businesslogic.dto.PaymentRequest;
 import com.sms.businesslogic.entity.Order;
 import com.sms.businesslogic.entity.Payment;
@@ -13,8 +12,6 @@ import com.stripe.param.PaymentIntentCreateParams;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-
-import java.math.BigDecimal;
 
 @Service
 @RequiredArgsConstructor
