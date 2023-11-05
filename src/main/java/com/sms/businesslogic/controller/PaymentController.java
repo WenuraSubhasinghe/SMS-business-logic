@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/v1/payment")
 @RequiredArgsConstructor
-public class StripePaymentController {
+public class PaymentController {
 
     @Value("${stripe.apikey}")
     String stripeKey;
