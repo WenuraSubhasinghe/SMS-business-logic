@@ -1,5 +1,6 @@
 package com.sms.businesslogic.service;
 
+import com.sms.businesslogic.dto.PaymentResponse;
 import com.sms.businesslogic.dto.PaymentRequest;
 import com.sms.businesslogic.entity.Order;
 import com.sms.businesslogic.entity.Payment;
@@ -13,6 +14,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
+
 @Service
 @RequiredArgsConstructor
 public class PaymentService {
@@ -23,33 +27,40 @@ public class PaymentService {
     @Value("${stripe.apikey}")
     private String stripeKey;
 
-    public Payment createPaymentIntent(PaymentRequest paymentRequest) {
+    public PaymentResponse createPaymentIntent(PaymentRequest paymentRequest) {
         try {
-            //  Setting API key
             Stripe.apiKey = stripeKey;
 
-            // Checking if the order exist
             Order order =  orderRepository.findById(paymentRequest.getOrderId()).orElseThrow();
 
-            Long paymentAmount = order.getTotalPrice().longValue();
+            long paymentAmount = order.getTotalPrice().longValue();
 
-            // Create a PaymentIntent
             PaymentIntent paymentIntent = PaymentIntent.create(
                     new PaymentIntentCreateParams.Builder()
                             .setCurrency(paymentRequest.getCurrency())
-                            .setAmount(paymentAmount)
+                            .setAmount(paymentAmount*100)
                             .addPaymentMethodType(paymentRequest.getPaymentMethodType())
                             .setConfirmationMethod(PaymentIntentCreateParams.ConfirmationMethod.MANUAL)
                             .build()
             );
 
-            // Saving the PaymentIntent to the database
             Payment payment = new Payment();
             payment.setOrder(order);
             payment.setPaymentType(paymentRequest.getPaymentMethodType());
             payment.setTotalPayment(order.getTotalPrice());
+            payment.setLocalDateTime(LocalDateTime.now());
 
-            return paymentRepository.save(payment);
+            payment = paymentRepository.save(payment);
+
+            PaymentResponse paymentResponse = new PaymentResponse();
+            paymentResponse.setPaymentId(payment.getPaymentId());
+            paymentResponse.setOrderId(payment.getOrder().getOrderId());
+            paymentResponse.setUsername(payment.getOrder().getUser().getUsername());
+            paymentResponse.setTotalPayment(payment.getTotalPayment());
+            paymentResponse.setPaymentType(payment.getPaymentType());
+            paymentResponse.setLocalDateTime(payment.getLocalDateTime());
+
+            return paymentResponse;
         } catch (StripeException e) {
             e.printStackTrace();
             return null;
