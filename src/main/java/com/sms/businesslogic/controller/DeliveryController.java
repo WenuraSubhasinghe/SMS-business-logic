@@ -23,7 +23,7 @@ public class DeliveryController {
         return deliverService.getAllDeliveries();
     }
 
-    @PutMapping("/{deliveryId}/status")
+    @PutMapping("/status/{deliveryId}")
     public ResponseEntity<String> updateDeliveryStatus(@PathVariable Integer deliveryId, @RequestParam String newStatus) {
         Delivery updatedDelivery = deliverService.updateDeliveryStatus(deliveryId, newStatus);
 
