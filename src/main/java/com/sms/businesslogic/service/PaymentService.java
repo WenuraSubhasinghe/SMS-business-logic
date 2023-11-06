@@ -4,6 +4,8 @@ import com.sms.businesslogic.dto.PaymentResponse;
 import com.sms.businesslogic.dto.PaymentRequest;
 import com.sms.businesslogic.entity.Order;
 import com.sms.businesslogic.entity.Payment;
+import com.sms.businesslogic.exception.OrderNotFoundException;
+import com.sms.businesslogic.exception.PaymentNotFoundException;
 import com.sms.businesslogic.repository.OrderRepository;
 import com.sms.businesslogic.repository.PaymentRepository;
 import com.stripe.Stripe;
@@ -31,8 +33,9 @@ public class PaymentService {
     public PaymentResponse createPaymentIntent(PaymentRequest paymentRequest) throws StripeException {
         Stripe.apiKey = stripeKey;
 
-        // todo: handle the exception here.
-        Order order =  orderRepository.findById(paymentRequest.getOrderId()).orElseThrow();
+        Order order =  orderRepository.findById(paymentRequest.getOrderId()).orElseThrow(
+                () -> new OrderNotFoundException("Order not found for the orderId : " + paymentRequest.getOrderId())
+        );
 
         long paymentAmount = order.getTotalPrice().longValue();
 
@@ -65,7 +68,9 @@ public class PaymentService {
     }
 
     public PaymentResponse getPaymentDetails(Integer paymentId) {
-        Payment payment = paymentRepository.findById(paymentId).orElseThrow();
+        Payment payment = paymentRepository.findById(paymentId).orElseThrow(
+                () -> new PaymentNotFoundException("Payment not found for the paymentId : " + paymentId)
+        );
         return mapToResponse(payment);
     }
 

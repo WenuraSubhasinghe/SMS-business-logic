@@ -57,5 +57,16 @@ public class CustomExceptionHandler {
                 ZonedDateTime.now());
         return new ResponseEntity<>(customException,httpStatus);
     }
+
+    @ExceptionHandler(value = {PaymentNotFoundException.class})
+    public ResponseEntity<Object> handlePaymentNotFoundException(PaymentNotFoundException exception) {
+        HttpStatus httpStatus = HttpStatus.NOT_FOUND;
+        CustomException customException = new CustomException(
+                exception.getMessage(),
+                httpStatus,
+                ZonedDateTime.now()
+        );
+        return new ResponseEntity<>(customException,httpStatus);
+    }
 }
 
