@@ -3,6 +3,7 @@ package com.sms.businesslogic.service;
 import com.sms.businesslogic.entity.Delivery;
 import com.sms.businesslogic.entity.Order;
 import com.sms.businesslogic.repository.DeliveryRepository;
+import com.sms.businesslogic.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +19,8 @@ public class DeliverService {
     @Autowired
     private DeliveryRepository deliveryRepository;
 
+    private OrderRepository orderRepository;
+
     public List<Delivery> getAllDeliveries() {
         return deliveryRepository.findAll();
     }
@@ -25,7 +28,7 @@ public class DeliverService {
     public Delivery updateDeliveryStatus(Integer deliveryId,String newStatus) {
         Delivery delivery = deliveryRepository.findById(deliveryId).orElse(null);
         if (delivery != null) {
-            delivery.setStatus(newStatus);
+            delivery.setDeliveryStatus(newStatus);
             return deliveryRepository.save(delivery);
         }
         return null;
@@ -46,7 +49,11 @@ public class DeliverService {
         return "TRACK-" + orderId + "-" + randomNumber;
     }
 
-    public Delivery updateDelivery(Order order) {
+    public Delivery updateDelivery(Integer orderId, String shippingAddress) {
+
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new IllegalArgumentException("Order not found"));
+
         Delivery newDelivery = new Delivery();
         String trackingNumber = generateTrackingNumber(order.getOrderId());
 
@@ -55,11 +62,21 @@ public class DeliverService {
             newDelivery.setTrackingNo(trackingNumberAsInt);
         } catch (NumberFormatException e) {
             // Handle the case where the tracking number is not a valid integer
+            newDelivery.setTrackingNo(-1);
         }
         newDelivery.setDeliveryDate(calculateDeliveryDate());
-        newDelivery.setStatus("In Progress");
+        newDelivery.setDeliveryStatus("In Progress");
+        newDelivery.setShippingAddress(shippingAddress);
         newDelivery.setOrder(order);
 
         return deliveryRepository.save(newDelivery);
+    }
+
+    public void deleteDelivery(Integer deliveryId) {
+        if (deliveryRepository.existsById(deliveryId)) {
+            deliveryRepository.deleteById(deliveryId);
+        } else {
+            throw new IllegalArgumentException("Delivery not found");
+        }
     }
 }
