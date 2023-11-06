@@ -26,4 +26,5 @@ public class Delivery {
     @OneToOne
     @JoinColumn(name = "order_id", referencedColumnName = "orderId")
     private Order order;
+
 }
