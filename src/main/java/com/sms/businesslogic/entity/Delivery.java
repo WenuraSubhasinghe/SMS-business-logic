@@ -18,7 +18,8 @@ public class Delivery {
     private Integer deliveryId;
     private Integer trackingNo;
     private Date deliveryDate;
-    private String status;
+    private String shippingAddress;
+    private String deliveryStatus;
 
     @OneToOne
     @JoinColumn(name = "order_id", referencedColumnName = "orderId")
