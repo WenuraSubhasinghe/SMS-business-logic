@@ -27,7 +27,6 @@ public class OrderController {
         return orderService.getAllOrdersByUserName(userID);
     }
 
-
     @PostMapping("/placeOrder/{username}")
     public ResponseEntity<?> createOrder(@RequestBody OrderPlaceDTO orderPlaceDTO,@PathVariable String username){
         try {
