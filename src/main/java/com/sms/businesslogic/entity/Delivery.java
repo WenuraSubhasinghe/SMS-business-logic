@@ -2,6 +2,7 @@ package com.sms.businesslogic.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -10,6 +11,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+@Builder
 @Entity
 @Table(name = "delivery")
 public class Delivery {
@@ -18,7 +20,8 @@ public class Delivery {
     private Integer deliveryId;
     private Integer trackingNo;
     private Date deliveryDate;
-    private String status;
+    private String shippingAddress;
+    private String deliveryStatus;
 
     @OneToOne
     @JoinColumn(name = "order_id", referencedColumnName = "orderId")
