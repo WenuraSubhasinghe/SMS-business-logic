@@ -1,5 +1,7 @@
 package com.sms.businesslogic.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -39,6 +41,5 @@ public class Order {
     private Delivery delivery;
 
     @OneToMany(mappedBy = "order",cascade = CascadeType.ALL)
-    @JsonManagedReference
     private List<OrderProduct> orderedProducts;
 }

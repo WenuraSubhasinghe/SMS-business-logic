@@ -21,6 +21,7 @@ public class OrderDTO {
     private String orderStatus;
     private Integer userID;
     private Integer paymentID;
-    private List<OrderProductDTO> orderProducts;
+    private Integer deliveryID;
+    private List<OrderProductDTO> orderedProducts;
 
 }

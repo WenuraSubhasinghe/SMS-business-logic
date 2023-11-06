@@ -1,7 +1,7 @@
 package com.sms.businesslogic.controller;
 
+import com.sms.businesslogic.dto.OrderDTO;
 import com.sms.businesslogic.dto.OrderPlaceDTO;
-import com.sms.businesslogic.entity.Order;
 import com.sms.businesslogic.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -18,8 +18,13 @@ public class OrderController {
     private final OrderService orderService;
 
     @GetMapping("/orders")
-    public List<Order> getAllOrders(){
+    public List<OrderDTO> getAllOrders(){
         return orderService.getAllOrders();
+    }
+
+    @GetMapping("/orders/{userID}")
+    public List<OrderDTO> getAllOrdersByUserName(@PathVariable Integer userID){
+        return orderService.getAllOrdersByUserName(userID);
     }
 
     @PostMapping("/placeOrder/{username}")
