@@ -57,10 +57,5 @@ public class CustomExceptionHandler {
                 ZonedDateTime.now());
         return new ResponseEntity<>(customException,httpStatus);
     }
-
-
-
-
-
 }
 

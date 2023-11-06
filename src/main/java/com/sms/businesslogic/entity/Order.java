@@ -26,17 +26,13 @@ public class Order {
     private String orderDate;
     private String orderStatus;
 
-
     @ManyToOne
     @JoinColumn(name = "fk_user_id", referencedColumnName = "userId")
     private User user;
 
-
-
     @OneToOne
     @JoinColumn(name = "fk_payment_id",referencedColumnName ="paymentId")
     private Payment payment;
-
 
     @OneToOne
     @JoinColumn(name = "fk_delivery_id",referencedColumnName = "deliveryId")
@@ -45,7 +41,4 @@ public class Order {
     @OneToMany(mappedBy = "order",cascade = CascadeType.ALL)
     @JsonManagedReference
     private List<OrderProduct> orderedProducts;
-
-
-
 }
