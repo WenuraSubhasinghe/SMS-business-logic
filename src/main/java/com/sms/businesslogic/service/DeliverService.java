@@ -25,7 +25,7 @@ public class DeliverService {
     public Delivery updateDeliveryStatus(Integer deliveryId,String newStatus) {
         Delivery delivery = deliveryRepository.findById(deliveryId).orElse(null);
         if (delivery != null) {
-            delivery.setDeliveryStatus(newStatus);
+            delivery.setStatus(newStatus);
             return deliveryRepository.save(delivery);
         }
         return null;
@@ -46,7 +46,7 @@ public class DeliverService {
         return "TRACK-" + orderId + "-" + randomNumber;
     }
 
-    public Delivery updateDelivery(Order order, String shippingAddress) {
+    public Delivery updateDelivery(Order order) {
         Delivery newDelivery = new Delivery();
         String trackingNumber = generateTrackingNumber(order.getOrderId());
 
@@ -57,14 +57,9 @@ public class DeliverService {
             // Handle the case where the tracking number is not a valid integer
         }
         newDelivery.setDeliveryDate(calculateDeliveryDate());
-        newDelivery.setDeliveryStatus("In Progress");
-        newDelivery.setShippingAddress(shippingAddress);
+        newDelivery.setStatus("In Progress");
         newDelivery.setOrder(order);
 
         return deliveryRepository.save(newDelivery);
-    }
-
-    public void deleteDelivery(Integer deliveryId) {
-        deliveryRepository.deleteById(deliveryId);
     }
 }
