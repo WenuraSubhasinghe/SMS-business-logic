@@ -42,7 +42,7 @@ public class OrderController {
         return orderService.deleteOrder(orderID);
     }
 
-    @PutMapping("updateOrder/{orderID}")
+/*    @PutMapping("updateOrder/{orderID}")
     public ResponseEntity<?> updateOrder(@RequestBody OrderPlaceDTO orderPlaceDTO,@PathVariable Integer orderID){
         try {
             orderService.updateOrder(orderPlaceDTO,orderID);
@@ -53,7 +53,7 @@ public class OrderController {
                     .body("Error creating the order: "+e.getMessage());
         }
 
-    }
+    }*/
 
 
 

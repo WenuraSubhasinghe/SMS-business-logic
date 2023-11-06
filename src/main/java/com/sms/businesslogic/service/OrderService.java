@@ -259,7 +259,7 @@ public class OrderService {
         orderRepository.save(existingOrder);
     }*/
 
-    public void updateOrder(OrderPlaceDTO orderPlaceDTO, Integer orderID) {
+    /*public void updateOrder(OrderPlaceDTO orderPlaceDTO, Integer orderID) {
         // Retrieve the existing order based on the provided order ID
         Order existingOrder = orderRepository.findById(orderID)
                 .orElseThrow(() -> new OrderNotFoundException("Order with id " + orderID + " is not available"));
@@ -295,9 +295,5 @@ public class OrderService {
 
         // Save the updated order along with the updated OrderProduct entries
         orderRepository.save(existingOrder);
-    }
-
-
-
-
+    }*/
 }
