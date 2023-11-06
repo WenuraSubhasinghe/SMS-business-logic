@@ -1,9 +1,7 @@
 package com.sms.businesslogic.entity;
 
-
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-import jakarta.persistence.criteria.CriteriaBuilder;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,7 +14,6 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "t_order_product")
 public class OrderProduct {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer ProdOrderId;
@@ -33,8 +30,4 @@ public class OrderProduct {
 
     private Integer prodQuantity;
     private Integer prodTotalPrice;
-
-
-
-
 }

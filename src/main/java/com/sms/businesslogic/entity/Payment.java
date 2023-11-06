@@ -1,11 +1,13 @@
 package com.sms.businesslogic.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -18,6 +20,7 @@ public class Payment {
     private Integer paymentId;
     private String paymentType;
     private BigDecimal totalPayment;
+    private LocalDateTime localDateTime;
 
     @OneToOne
     @JoinColumn(name = "order_id", referencedColumnName = "orderId")
