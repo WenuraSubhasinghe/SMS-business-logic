@@ -1,9 +1,7 @@
 package com.sms.businesslogic.controller;
 
-
 import com.sms.businesslogic.dto.OrderDTO;
 import com.sms.businesslogic.dto.OrderPlaceDTO;
-import com.sms.businesslogic.entity.Order;
 import com.sms.businesslogic.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -17,23 +15,15 @@ import java.util.List;
 @RequiredArgsConstructor
 public class OrderController {
 
-
     private final OrderService orderService;
-
-/*    @GetMapping("/orders")
-    public List<Order> getAllOrders(){
-        return orderService.getAllOrders();
-    }*/
 
     @GetMapping("/orders")
     public List<OrderDTO> getAllOrders(){
-
         return orderService.getAllOrders();
     }
 
     @GetMapping("/orders/{userID}")
     public List<OrderDTO> getAllOrdersByUserName(@PathVariable Integer userID){
-
         return orderService.getAllOrdersByUserName(userID);
     }
 
@@ -54,20 +44,4 @@ public class OrderController {
     public String deleteOrder(@PathVariable Integer orderID){
         return orderService.deleteOrder(orderID);
     }
-
-/*    @PutMapping("updateOrder/{orderID}")
-    public ResponseEntity<?> updateOrder(@RequestBody OrderPlaceDTO orderPlaceDTO,@PathVariable Integer orderID){
-        try {
-            orderService.updateOrder(orderPlaceDTO,orderID);
-            return ResponseEntity.ok("Order updated sucessfully");
-        }
-        catch (Exception e){
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Error creating the order: "+e.getMessage());
-        }
-
-    }*/
-
-
-
 }
