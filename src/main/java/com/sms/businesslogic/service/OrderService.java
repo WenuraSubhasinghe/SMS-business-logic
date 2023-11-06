@@ -91,6 +91,6 @@ public class OrderService {
                         .orElseThrow(() ->new OrderNotFoundException("Order with id "+orderID+" is not available"));
 
        orderRepository.deleteById(orderID);
-       return "Order with id "+orderID+" deleted sucessfully";
+       return "Order with id "+orderID+" deleted successfully";
     }
 }
