@@ -4,6 +4,7 @@ import com.sms.businesslogic.entity.Delivery;
 import com.sms.businesslogic.entity.Order;
 import com.sms.businesslogic.service.DeliverService;
 import com.sms.businesslogic.service.OrderService;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/deliveries")
+@AllArgsConstructor
 public class DeliveryController {
     @Autowired
     private DeliverService deliverService;
@@ -35,15 +37,16 @@ public class DeliveryController {
         }
     }
 
-    @PostMapping("/updateDelivery/{orderId}")
+    @PostMapping("/createDelivery/{orderId}")
     public ResponseEntity<String> updateDelivery(@PathVariable Integer orderId, @RequestParam String shippingAddress) {
-        Order order = orderService.getAllOrders().get(orderId);
-        if (order == null) {
-            return new ResponseEntity<>("Order not found" , HttpStatus.NOT_FOUND);
-        }
-        Delivery newDelivery = deliverService.updateDelivery(order, shippingAddress);
+        try {
+            Delivery newDelivery = deliverService.updateDelivery(orderId, shippingAddress);
 
-        return new ResponseEntity<>("Delivery updated successfully", HttpStatus.OK);
+            return new ResponseEntity<>("Delivery updated successfully", HttpStatus.OK);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error creating the delivery: " + e.getMessage());
+        }
     }
 
     @GetMapping("/track")
@@ -59,14 +62,15 @@ public class DeliveryController {
     }
 
     @DeleteMapping("/deleteDelivery/{deliveryId}")
-    public ResponseEntity<String> deleteDelivery(@PathVariable Integer deliveryId) {
-
-        Delivery delivery = deliverService.getAllDeliveries().get(deliveryId);
-        if (delivery == null) {
-            return new ResponseEntity<>("Delivery not found", HttpStatus.NOT_FOUND);
+    public ResponseEntity<?> deleteDelivery(@PathVariable Integer deliveryId) {
+        try {
+            deliverService.deleteDelivery(deliveryId);
+            return ResponseEntity.ok("Delivery deleted successfully");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error deleting the delivery: " + e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error deleting the delivery: " + e.getMessage());
         }
-        deliverService.deleteDelivery(deliveryId);
-
-        return new ResponseEntity<>("Delivery deleted successfully" , HttpStatus.OK);
     }
 }
