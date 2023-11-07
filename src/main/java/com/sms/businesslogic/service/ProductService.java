@@ -28,7 +28,7 @@ public class ProductService {
                 .quantity(product.getQuantity())
                 .description(product.getDescription())
                 .price(product.getPrice())
-                .categoryId(product.getCategory().getCategoryId()) // Assuming category ID is part of Product entity
+                .categoryId(product.getCategory().getCategoryId())
                 .build();
     }
 
@@ -76,10 +76,6 @@ public class ProductService {
 
         }
     }
-
-/*    public void deleteProduct(Integer productId) {
-        productRepository.deleteById(productId);
-    }*/
 
     public String deleteProduct(Integer productId) {
         try {

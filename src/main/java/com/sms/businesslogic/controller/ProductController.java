@@ -1,10 +1,8 @@
 package com.sms.businesslogic.controller;
 
 import com.sms.businesslogic.dto.ProductDTO;
-import com.sms.businesslogic.entity.Product;
 import com.sms.businesslogic.service.ProductService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -56,12 +54,6 @@ public class ProductController {
                   .body("Error saving the product: "+e.getMessage());
       }
     }
-
-/*    @DeleteMapping("/{productId}")
-    public ResponseEntity<Void> deleteProduct(@PathVariable Integer productId) {
-        productService.deleteProduct(productId);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }*/
 
     @DeleteMapping("/{productId}")
     public ResponseEntity<String> deleteProduct(@PathVariable Integer productId) {
