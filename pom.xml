@@ -65,6 +65,7 @@
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+    
 		<!-- https://mvnrepository.com/artifact/com.stripe/stripe-java -->
 		<dependency>
 			<groupId>com.stripe</groupId>
@@ -73,6 +74,7 @@
 		</dependency>
 
 	</dependencies>
+
 
 	<build>
 		<plugins>
