@@ -157,7 +157,7 @@ public class OrderService {
         }
 
        orderRepository.deleteById(orderID);
-       return "Order with id "+orderID+" deleted sucessfully";
+       return "Order with id "+orderID+" deleted successfully";
     }
 
 }
