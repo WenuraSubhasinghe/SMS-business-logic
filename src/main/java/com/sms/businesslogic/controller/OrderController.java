@@ -11,36 +11,35 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/order-controller")
+@RequestMapping("/api/v1/order")
 @RequiredArgsConstructor
 public class OrderController {
 
     private final OrderService orderService;
 
-    @GetMapping("/orders")
-    public List<OrderDTO> getAllOrders(){
+    @GetMapping
+    public List<OrderDTO> getAllOrders() {
         return orderService.getAllOrders();
     }
 
-    @GetMapping("/orders/{userID}")
-    public List<OrderDTO> getAllOrdersByUserName(@PathVariable Integer userID){
+    @GetMapping("/user/{userID}")
+    public List<OrderDTO> getAllOrdersByUserName(@PathVariable Integer userID) {
         return orderService.getAllOrdersByUserName(userID);
     }
 
-    @PostMapping("/placeOrder/{username}")
-    public ResponseEntity<?> createOrder(@RequestBody OrderPlaceDTO orderPlaceDTO,@PathVariable String username){
+    @PostMapping("/user/{username}")
+    public ResponseEntity<?> createOrder(@RequestBody OrderPlaceDTO orderPlaceDTO, @PathVariable String username) {
         try {
-            orderService.createOrder(orderPlaceDTO,username);
-            return ResponseEntity.ok("Order placed sucessfully");
-        }
-        catch (Exception e){
+            orderService.createOrder(orderPlaceDTO, username);
+            return ResponseEntity.ok("Order placed successfully");
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Error creating the order: "+e.getMessage());
+                    .body("Error creating the order: " + e.getMessage());
         }
     }
 
-    @DeleteMapping("/deleteOrder/{orderID}")
-    public String deleteOrder(@PathVariable Integer orderID){
+    @DeleteMapping("/{orderID}")
+    public String deleteOrder(@PathVariable Integer orderID) {
         return orderService.deleteOrder(orderID);
     }
 }

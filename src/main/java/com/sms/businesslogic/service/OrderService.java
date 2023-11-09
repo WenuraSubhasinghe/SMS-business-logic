@@ -85,22 +85,18 @@ public class OrderService {
         List<OrderProductDTO> orderProductDTOList =orderPlaceDTO.getOrderProducts();
 
         //checking the inventory is sufficient to process order
-        for(int i=0; i<orderProductDTOList.size();i++){
-            OrderProductDTO itemProduct = orderProductDTOList.get(i);
-
+        for (OrderProductDTO itemProduct : orderProductDTOList) {
             Product product = productRepository.findById(itemProduct.getId()).orElse(null);
-            if(product != null){
-                if(product.getQuantity() <= itemProduct.getProdQuantity()){
-                    throw new ProdcutOutOfStockException(product.getProductName()+" is currently out of stock");
-                }
-                else{
+            if (product != null) {
+                if (product.getQuantity() <= itemProduct.getProdQuantity()) {
+                    throw new ProdcutOutOfStockException(product.getProductName() + " is currently out of stock");
+                } else {
                     Integer newQuantity = 0;
                     newQuantity = product.getQuantity() - itemProduct.getProdQuantity();
                     product.setQuantity(newQuantity);
                 }
 
-            }
-            else{
+            } else {
                 throw new IllegalArgumentException("Product not Found");
             }
         }
@@ -115,11 +111,9 @@ public class OrderService {
         List<OrderProduct> orderProducts = new ArrayList<>();
 
         //setting products in OrderProduct entity
-        for(int i = 0; i < orderProductDTOList.size();i++){
-            OrderProductDTO prodOrder =orderProductDTOList.get(i);
-
+        for (OrderProductDTO prodOrder : orderProductDTOList) {
             Product product = productRepository.findById(prodOrder.getId())
-                    .orElseThrow(() ->new IllegalArgumentException("Product Not Found"));
+                    .orElseThrow(() -> new IllegalArgumentException("Product Not Found"));
 
             OrderProduct orderProduct = new OrderProduct();
             orderProduct.setProdQuantity(prodOrder.getProdQuantity());
@@ -142,22 +136,19 @@ public class OrderService {
                         .orElseThrow(() ->new OrderNotFoundException("Order with id "+orderID+" is not available"));
 
         List<OrderProduct> delOrderProducts = order.getOrderedProducts();
-        for(int i=0;i<delOrderProducts.size();i++){
-            OrderProduct itemProduct = delOrderProducts.get(i);
-            Integer existingQuantity,inventoryQuantity,updatedQuantity,prodID;
-            existingQuantity=itemProduct.getProdQuantity();
-            prodID=itemProduct.getProduct().getProductId();
-            Product product=productRepository.findById(prodID)
-                    .orElseThrow(() ->new IllegalArgumentException("Product not found"));
-            inventoryQuantity=product.getQuantity();
-            updatedQuantity=inventoryQuantity+existingQuantity;
+        for (OrderProduct itemProduct : delOrderProducts) {
+            Integer existingQuantity, inventoryQuantity, updatedQuantity, prodID;
+            existingQuantity = itemProduct.getProdQuantity();
+            prodID = itemProduct.getProduct().getProductId();
+            Product product = productRepository.findById(prodID)
+                    .orElseThrow(() -> new IllegalArgumentException("Product not found"));
+            inventoryQuantity = product.getQuantity();
+            updatedQuantity = inventoryQuantity + existingQuantity;
             product.setQuantity(updatedQuantity);
             productRepository.save(product);
 
         }
-
        orderRepository.deleteById(orderID);
-       return "Order with id "+orderID+" deleted sucessfully";
+       return "Order with id "+orderID+" deleted successfully";
     }
-
 }
