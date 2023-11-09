@@ -4,6 +4,7 @@ import com.sms.businesslogic.dto.DeleteResponse;
 import com.sms.businesslogic.dto.OrderDTO;
 import com.sms.businesslogic.dto.OrderPlaceDTO;
 import com.sms.businesslogic.exception.CustomOrderException;
+import com.sms.businesslogic.exception.OrderNotFoundException;
 import com.sms.businesslogic.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -41,13 +42,9 @@ public class OrderController {
     }
 
     @DeleteMapping("/{orderID}")
-    public ResponseEntity<DeleteResponse> deleteOrder(@PathVariable Integer orderID) {
-        String result = orderService.deleteOrder(orderID);
-        if (result.equals("Deleted")) {
-            return ResponseEntity.ok(new DeleteResponse(true, "Order deleted successfully"));
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new DeleteResponse(false, "Order not found"));
-        }
+    public String deleteOrder(@PathVariable Integer orderID){
+        return orderService.deleteOrder(orderID);
     }
+
 }
 

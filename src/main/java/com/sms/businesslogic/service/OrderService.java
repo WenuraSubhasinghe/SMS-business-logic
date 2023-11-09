@@ -86,7 +86,6 @@ public class OrderService {
             if (product.getQuantity() < itemProduct.getProdQuantity()) {
                 throw new ProductOutOfStockException(product.getProductName() + " is currently out of stock");
             }
-
             int newQuantity = product.getQuantity() - itemProduct.getProdQuantity();
             product.setQuantity(newQuantity);
             productRepository.save(product);
@@ -98,7 +97,6 @@ public class OrderService {
         order.setTotalPrice(orderPlaceDTO.getTotalPrice());
         order.setOrderStatus("processing");
         order.setUser(user);
-
         List<OrderProduct> orderProducts = new ArrayList<>();
 
         for (OrderProductDTO prodOrder : orderProductDTOList) {
@@ -110,33 +108,31 @@ public class OrderService {
             orderProduct.setProdTotalPrice(prodOrder.getProdSubTotal());
             orderProduct.setProduct(product);
             orderProduct.setOrder(order);
-
             orderProducts.add(orderProduct);
         }
-
         order.setOrderedProducts(orderProducts);
         orderRepository.save(order);
     }
 
-    @Transactional
     public String deleteOrder(Integer orderID) {
         Order order = orderRepository.findById(orderID)
-                .orElseThrow(() -> new OrderNotFoundException("Order with id " + orderID + " is not available"));
+                .orElseThrow(() ->new OrderNotFoundException("Order with id "+orderID+" is not available"));
 
         List<OrderProduct> delOrderProducts = order.getOrderedProducts();
-        for (OrderProduct itemProduct : delOrderProducts) {
-            Integer existingQuantity, inventoryQuantity, updatedQuantity, prodID;
-            existingQuantity = itemProduct.getProdQuantity();
-            prodID = itemProduct.getProduct().getProductId();
-            Product product = productRepository.findById(prodID)
-                    .orElseThrow(() -> new IllegalArgumentException("Product not found"));
-            inventoryQuantity = product.getQuantity();
-            updatedQuantity = inventoryQuantity + existingQuantity;
+        for(int i=0;i<delOrderProducts.size();i++){
+            OrderProduct itemProduct = delOrderProducts.get(i);
+            Integer existingQuantity,inventoryQuantity,updatedQuantity,prodID;
+            existingQuantity=itemProduct.getProdQuantity();
+            prodID=itemProduct.getProduct().getProductId();
+            Product product=productRepository.findById(prodID)
+                    .orElseThrow(() ->new IllegalArgumentException("Product not found"));
+            inventoryQuantity=product.getQuantity();
+            updatedQuantity=inventoryQuantity+existingQuantity;
             product.setQuantity(updatedQuantity);
             productRepository.save(product);
         }
-
         orderRepository.deleteById(orderID);
-        return "Order with id " + orderID + " deleted successfully";
+        return "Order with id "+orderID+" deleted successfully";
     }
+
 }
