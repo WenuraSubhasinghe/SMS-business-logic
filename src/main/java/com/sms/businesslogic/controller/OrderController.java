@@ -1,7 +1,9 @@
 package com.sms.businesslogic.controller;
 
+import com.sms.businesslogic.dto.DeleteResponse;
 import com.sms.businesslogic.dto.OrderDTO;
 import com.sms.businesslogic.dto.OrderPlaceDTO;
+import com.sms.businesslogic.exception.CustomOrderException;
 import com.sms.businesslogic.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -28,18 +30,24 @@ public class OrderController {
     }
 
     @PostMapping("/user/{username}")
-    public ResponseEntity<?> createOrder(@RequestBody OrderPlaceDTO orderPlaceDTO, @PathVariable String username) {
+    public ResponseEntity<String> createOrder(@RequestBody OrderPlaceDTO orderPlaceDTO, @PathVariable String username) {
         try {
             orderService.createOrder(orderPlaceDTO, username);
-            return ResponseEntity.ok("Order placed successfully");
-        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.CREATED).body("Order placed successfully");
+        } catch (CustomOrderException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Error creating the order: " + e.getMessage());
         }
     }
 
     @DeleteMapping("/{orderID}")
-    public String deleteOrder(@PathVariable Integer orderID) {
-        return orderService.deleteOrder(orderID);
+    public ResponseEntity<DeleteResponse> deleteOrder(@PathVariable Integer orderID) {
+        String result = orderService.deleteOrder(orderID);
+        if (result.equals("Deleted")) {
+            return ResponseEntity.ok(new DeleteResponse(true, "Order deleted successfully"));
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new DeleteResponse(false, "Order not found"));
+        }
     }
 }
+
