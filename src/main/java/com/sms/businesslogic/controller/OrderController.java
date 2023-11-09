@@ -11,23 +11,23 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/order-controller")
+@RequestMapping("/api/v1/order")
 @RequiredArgsConstructor
 public class OrderController {
 
     private final OrderService orderService;
 
-    @GetMapping("/orders")
+    @GetMapping
     public List<OrderDTO> getAllOrders(){
         return orderService.getAllOrders();
     }
 
-    @GetMapping("/orders/{userID}")
+    @GetMapping("/user/{userID}")
     public List<OrderDTO> getAllOrdersByUserName(@PathVariable Integer userID){
         return orderService.getAllOrdersByUserName(userID);
     }
 
-    @PostMapping("/placeOrder/{username}")
+    @PostMapping("/user/{username}")
     public ResponseEntity<?> createOrder(@RequestBody OrderPlaceDTO orderPlaceDTO,@PathVariable String username){
         try {
             orderService.createOrder(orderPlaceDTO,username);
@@ -39,7 +39,7 @@ public class OrderController {
         }
     }
 
-    @DeleteMapping("/deleteOrder/{orderID}")
+    @DeleteMapping("/{orderID}")
     public String deleteOrder(@PathVariable Integer orderID){
         return orderService.deleteOrder(orderID);
     }

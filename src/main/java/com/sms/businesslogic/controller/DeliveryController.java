@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/deliveries")
+@RequestMapping("/api/v1/delivery")
 @AllArgsConstructor
 public class DeliveryController {
     @Autowired
@@ -26,7 +26,7 @@ public class DeliveryController {
         return deliverService.getAllDeliveries();
     }
 
-    @PutMapping("/status/{deliveryId}")
+    @PutMapping("/{deliveryId}")
     public ResponseEntity<String> updateDeliveryStatus(@PathVariable Integer deliveryId, @RequestParam String newStatus) {
         Delivery updatedDelivery = deliverService.updateDeliveryStatus(deliveryId, newStatus);
 
@@ -37,7 +37,7 @@ public class DeliveryController {
         }
     }
 
-    @PostMapping("/createDelivery/{orderId}")
+    @PostMapping("/order/{orderId}")
     public ResponseEntity<String> updateDelivery(@PathVariable Integer orderId, @RequestParam String shippingAddress) {
         try {
             Delivery newDelivery = deliverService.updateDelivery(orderId, shippingAddress);
@@ -61,7 +61,7 @@ public class DeliveryController {
         return new ResponseEntity<>("Delivery status : " + status, HttpStatus.OK);
     }
 
-    @DeleteMapping("/deleteDelivery/{deliveryId}")
+    @DeleteMapping("/{deliveryId}")
     public ResponseEntity<?> deleteDelivery(@PathVariable Integer deliveryId) {
         try {
             deliverService.deleteDelivery(deliveryId);

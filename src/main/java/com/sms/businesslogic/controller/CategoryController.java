@@ -10,28 +10,29 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/categories")
+@RequestMapping("/api/v1/category")
 public class CategoryController {
     @Autowired
     private CategoryService categoryService;
-    @PostMapping("/add")
+
+    @PostMapping
     public ResponseEntity<String> addCategory(@RequestBody CategoryRequest categoryRequest) {
         Category category = categoryService.createCategory(categoryRequest.getCategoryName(), categoryRequest.getDescription());
         return ResponseEntity.ok("Category added successfully with ID : " + category.getCategoryId());
     }
 
-    @DeleteMapping("/delete/{categoryId}")
+    @DeleteMapping("/{categoryId}")
     public ResponseEntity<String> deleteCategory(@PathVariable Integer categoryId) {
         categoryService.deleteCategoryById(categoryId);
         return ResponseEntity.ok("Category deleted successfully");
     }
 
-    @GetMapping("/categoryList")
+    @GetMapping
     public List<Category> getAllCategories() {
         return categoryService.getAllCategories();
     }
 
-    @PutMapping("/updateCategoryName/{categoryId}")
+    @PutMapping("/{categoryId}")
     public ResponseEntity<Category> updateCategoryName(@PathVariable Integer categoryId, @RequestParam String newCategoryName) {
         Category updateCategory = categoryService.updateCategoryName(categoryId, newCategoryName);
 
