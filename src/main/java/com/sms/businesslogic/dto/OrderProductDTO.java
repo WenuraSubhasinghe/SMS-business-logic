@@ -18,6 +18,6 @@ public class OrderProductDTO {
     private String productName;
     private Integer prodQuantity;
     private Integer prodSubTotal;
-    private List<OrderProductDTO> orderProducts;
+
 
 }

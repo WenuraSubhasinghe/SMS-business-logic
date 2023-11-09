@@ -1,8 +1,5 @@
 package com.sms.businesslogic.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,7 +8,6 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.util.List;
-
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -40,6 +36,7 @@ public class Order {
     @JoinColumn(name = "fk_delivery_id",referencedColumnName = "deliveryId")
     private Delivery delivery;
 
-    @OneToMany(mappedBy = "order",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderProduct> orderedProducts;
+
 }
