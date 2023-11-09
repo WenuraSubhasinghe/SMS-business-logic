@@ -34,9 +34,9 @@ public class CustomExceptionHandler {
         return new ResponseEntity<>(customException,httpStatus);
     }
 
-    @ExceptionHandler(value = {ProdcutOutOfStockException.class})
+    @ExceptionHandler(value = {ProductOutOfStockException.class})
     public ResponseEntity<Object> handleProdcutOutOfStockException(
-            ProdcutOutOfStockException exception
+            ProductOutOfStockException exception
     ){
         HttpStatus httpStatus =HttpStatus.CONFLICT;
         CustomException customException = new CustomException(
