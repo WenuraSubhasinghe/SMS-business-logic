@@ -30,7 +30,7 @@ public class SecurityConfiguration {
                 .disable()
                 .authorizeHttpRequests()
                 .requestMatchers("/api/v1/auth/**")
-                    .permitAll()
+                .permitAll()
 
                 //.requestMatchers("/api/v1/category/**").hasAnyRole(ADMIN.name(), CUSTOMER.name())
                 .requestMatchers(GET,"/api/v1/category/**").hasAnyAuthority(ADMIN_READ.getPermission(),CUSTOMER_READ.getPermission())
