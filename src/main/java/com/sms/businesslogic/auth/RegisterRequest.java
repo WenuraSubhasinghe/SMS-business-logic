@@ -1,5 +1,6 @@
 package com.sms.businesslogic.auth;
 
+import com.sms.businesslogic.entity.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,4 +15,6 @@ public class RegisterRequest {
     private String lastname;
     private String email;
     private String password;
+    private Role role;
+
 }
