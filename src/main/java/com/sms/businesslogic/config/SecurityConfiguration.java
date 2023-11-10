@@ -32,25 +32,21 @@ public class SecurityConfiguration {
                 .requestMatchers("/api/v1/auth/**")
                 .permitAll()
 
-                //.requestMatchers("/api/v1/category/**").hasAnyRole(ADMIN.name(), CUSTOMER.name())
                 .requestMatchers(GET,"/api/v1/category/**").hasAnyAuthority(ADMIN_READ.getPermission(),CUSTOMER_READ.getPermission())
                 .requestMatchers(POST,"/api/v1/category/**").hasAuthority(ADMIN_CREATE.getPermission())
                 .requestMatchers(PUT,"/api/v1/category/**").hasAuthority(ADMIN_UPDATE.getPermission())
                 .requestMatchers(DELETE,"/api/v1/category/**").hasAuthority(ADMIN_DELETE.getPermission())
 
-                //.requestMatchers("/api/v1/delivery/**").hasAnyRole(ADMIN.name(), CUSTOMER.name(), DELIVERY_PERSON.name())
                 .requestMatchers(GET,"/api/v1/delivery/**").hasAnyAuthority(ADMIN_READ.getPermission(), CUSTOMER_READ.getPermission(), DELIVERY_PERSON_READ.getPermission())
                 .requestMatchers(POST,"/api/v1/delivery/**").hasAnyAuthority(ADMIN_CREATE.getPermission(), DELIVERY_PERSON_CREATE.getPermission())
                 .requestMatchers(PUT,"/api/v1/delivery/**").hasAnyAuthority(ADMIN_UPDATE.getPermission(), DELIVERY_PERSON_UPDATE.getPermission())
                 .requestMatchers(DELETE,"/api/v1/delivery/**").hasAuthority(ADMIN_DELETE.getPermission())
 
-                //.requestMatchers("/api/v1/order/**").hasAnyRole(ADMIN.name(), CUSTOMER.name(), DELIVERY_PERSON.name(), INVENTORY_KEEPER.name())
                 .requestMatchers(GET,"/api/v1/order/**").hasAnyAuthority(ADMIN_READ.getPermission(), CUSTOMER_READ.getPermission(), INVENTORY_KEEPER_READ.getPermission(), DELIVERY_PERSON_READ.getPermission())
                 .requestMatchers(POST,"/api/v1/order/user/**").hasAnyAuthority(ADMIN_CREATE.getPermission(),CUSTOMER_CREATE.getPermission())
                 .requestMatchers(PUT,"/api/v1/order/**").hasAuthority(ADMIN_UPDATE.getPermission())
                 .requestMatchers(DELETE,"/api/v1/order/**").hasAuthority(ADMIN_DELETE.getPermission())
 
-                //.requestMatchers("/api/v1/product/**").hasAnyRole(ADMIN.name(), CUSTOMER.name(), INVENTORY_KEEPER.name())
                 .requestMatchers(GET,"/api/v1/product/**").hasAnyAuthority(ADMIN_READ.getPermission(), CUSTOMER_READ.getPermission(), INVENTORY_KEEPER_READ.getPermission())
                 .requestMatchers(POST,"/api/v1/product/**").hasAnyAuthority(ADMIN_CREATE.getPermission(), INVENTORY_KEEPER_CREATE.getPermission())
                 .requestMatchers(PUT,"/api/v1/product/**").hasAnyAuthority(ADMIN_UPDATE.getPermission(),INVENTORY_KEEPER_UPDATE.getPermission())
