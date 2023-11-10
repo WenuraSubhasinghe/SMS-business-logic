@@ -30,4 +30,9 @@ public class PaymentController {
     public List<PaymentResponse> getAllPaymentsByUserId(@PathVariable(name = "userId") Integer userId) {
         return paymentService.getAllPaymentsByUserId(userId);
     }
+
+    @DeleteMapping("/{paymentId}")
+    public String deletePaymentByPaymentId(@PathVariable(name = "paymentId") Integer paymentId) {
+        return paymentService.deletePaymentByPaymentId(paymentId);
+    }
 }

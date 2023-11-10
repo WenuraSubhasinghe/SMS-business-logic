@@ -68,5 +68,16 @@ public class CustomExceptionHandler {
         );
         return new ResponseEntity<>(customException,httpStatus);
     }
+
+    @ExceptionHandler(value = {UserNotFoundException.class})
+    public ResponseEntity<Object> handleUserNotFoundException(UserNotFoundException exception) {
+        HttpStatus httpStatus = HttpStatus.NOT_FOUND;
+        CustomException customException = new CustomException(
+                exception.getMessage(),
+                httpStatus,
+                ZonedDateTime.now()
+        );
+        return new ResponseEntity<>(customException, httpStatus);
+    }
 }
 
