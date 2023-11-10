@@ -4,16 +4,21 @@ import com.sms.businesslogic.dto.PaymentResponse;
 import com.sms.businesslogic.dto.PaymentRequest;
 import com.sms.businesslogic.entity.Order;
 import com.sms.businesslogic.entity.Payment;
+import com.sms.businesslogic.entity.User;
 import com.sms.businesslogic.exception.OrderNotFoundException;
 import com.sms.businesslogic.exception.PaymentNotFoundException;
+import com.sms.businesslogic.exception.UserNotFoundException;
 import com.sms.businesslogic.repository.OrderRepository;
 import com.sms.businesslogic.repository.PaymentRepository;
+import com.sms.businesslogic.repository.UserRepository;
 import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
 import com.stripe.model.PaymentIntent;
 import com.stripe.param.PaymentIntentCreateParams;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -26,6 +31,7 @@ public class PaymentService {
 
     private final PaymentRepository paymentRepository;
     private final OrderRepository orderRepository;
+    private final UserRepository userRepository;
 
     @Value("${stripe.apikey}")
     private String stripeKey;
@@ -75,6 +81,10 @@ public class PaymentService {
     }
 
     public List<PaymentResponse> getAllPaymentsByUserId(Integer userId) {
+        User user = userRepository.findById(userId).orElseThrow(
+                () -> new UserNotFoundException("User not found for the userId : " + userId)
+        );
+
         List<Payment> payments = paymentRepository.findByOrderUserUserId(userId);
         List<PaymentResponse> paymentResponses = new ArrayList<>();
 
@@ -97,5 +107,15 @@ public class PaymentService {
         paymentResponse.setLocalDateTime(payment.getLocalDateTime());
 
         return paymentResponse;
+    }
+
+    public String deletePaymentByPaymentId(Integer paymentId) {
+        Payment paymentToDelete = paymentRepository.findById(paymentId).orElseThrow(
+                () -> new PaymentNotFoundException("Payment not found for the Id : " + paymentId)
+        );
+
+        paymentRepository.delete(paymentToDelete);
+
+        return "Payment with the id " + paymentId + " was deleted successfully";
     }
 }
