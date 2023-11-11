@@ -18,7 +18,7 @@ public class Delivery {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer deliveryId;
-    private Integer trackingNo;
+    private String trackingNo;
     private Date deliveryDate;
     private String shippingAddress;
     private String deliveryStatus;

@@ -1,7 +1,6 @@
 package com.sms.businesslogic.controller;
 
 import com.sms.businesslogic.entity.Delivery;
-import com.sms.businesslogic.entity.Order;
 import com.sms.businesslogic.service.DeliverService;
 import com.sms.businesslogic.service.OrderService;
 import lombok.AllArgsConstructor;
@@ -42,7 +41,7 @@ public class DeliveryController {
         try {
             Delivery newDelivery = deliverService.updateDelivery(orderId, shippingAddress);
 
-            return new ResponseEntity<>("Delivery updated successfully", HttpStatus.OK);
+            return new ResponseEntity<>("Delivery created successfully", HttpStatus.OK);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Error creating the delivery: " + e.getMessage());
@@ -50,7 +49,7 @@ public class DeliveryController {
     }
 
     @GetMapping("/track")
-    public ResponseEntity<String> trackDeliveryStatus(@RequestParam Integer trackingNumber) {
+    public ResponseEntity<String> trackDeliveryStatus(@RequestParam String trackingNumber) {
         Delivery delivery = deliverService.getDeliveryByTrackingNumber(trackingNumber);
 
         if (delivery == null) {
