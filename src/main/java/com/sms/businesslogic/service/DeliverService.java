@@ -2,8 +2,10 @@ package com.sms.businesslogic.service;
 
 import com.sms.businesslogic.entity.Delivery;
 import com.sms.businesslogic.entity.Order;
+import com.sms.businesslogic.exception.OrderNotFoundException;
 import com.sms.businesslogic.repository.DeliveryRepository;
 import com.sms.businesslogic.repository.OrderRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,11 +17,11 @@ import java.util.List;
 import java.util.Random;
 
 @Service
+@RequiredArgsConstructor
 public class DeliverService {
-    @Autowired
-    private DeliveryRepository deliveryRepository;
+    private final DeliveryRepository deliveryRepository;
 
-    private OrderRepository orderRepository;
+    private final OrderRepository orderRepository;
 
     public List<Delivery> getAllDeliveries() {
         return deliveryRepository.findAll();
@@ -34,7 +36,7 @@ public class DeliverService {
         return null;
     }
 
-    public Delivery getDeliveryByTrackingNumber(Integer trackingNumber) {
+    public Delivery getDeliveryByTrackingNumber(String trackingNumber) {
         return deliveryRepository.findByTrackingNo(trackingNumber);
     }
 
@@ -52,22 +54,22 @@ public class DeliverService {
     public Delivery updateDelivery(Integer orderId, String shippingAddress) {
 
         Order order = orderRepository.findById(orderId)
-                .orElseThrow(() -> new IllegalArgumentException("Order not found"));
+                .orElseThrow(() -> new OrderNotFoundException("Order not found"));
 
         Delivery newDelivery = new Delivery();
         String trackingNumber = generateTrackingNumber(order.getOrderId());
 
         try {
-            int trackingNumberAsInt = Integer.parseInt(trackingNumber);
-            newDelivery.setTrackingNo(trackingNumberAsInt);
+            newDelivery.setTrackingNo(trackingNumber);
         } catch (NumberFormatException e) {
             // Handle the case where the tracking number is not a valid integer
-            newDelivery.setTrackingNo(-1);
+            newDelivery.setTrackingNo("TRACK-ERR-404");
         }
         newDelivery.setDeliveryDate(calculateDeliveryDate());
         newDelivery.setDeliveryStatus("In Progress");
         newDelivery.setShippingAddress(shippingAddress);
         newDelivery.setOrder(order);
+        orderRepository.save(order);
 
         return deliveryRepository.save(newDelivery);
     }

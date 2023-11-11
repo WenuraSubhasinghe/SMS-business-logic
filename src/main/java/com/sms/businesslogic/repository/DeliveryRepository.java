@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface DeliveryRepository extends JpaRepository<Delivery, Integer> {
-    Delivery findByTrackingNo(Integer trackingNumber);
+    Delivery findByTrackingNo(String trackingNumber);
 }
